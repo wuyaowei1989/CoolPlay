@@ -2,15 +2,20 @@ package com.android.coolPlay;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.coolPlay.bean.Constants;
 import com.android.coolPlay.component.ApplicationComponent;
 import com.android.coolPlay.ui.base.BaseActivity;
 import com.android.coolPlay.utils.ImageLoaderUtil;
+import com.xiaomi.ad.SplashAdListener;
+import com.xiaomi.ad.adView.SplashAd;
 
 import java.util.concurrent.TimeUnit;
 
@@ -41,7 +46,9 @@ public class WelcomeActivity extends BaseActivity {
     @BindView(R.id.fl_ad)
     FrameLayout flAd;
     CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private ViewGroup mContainer;
 
+    private static final String TAG = "WelcomeActivity";
     @Override
     public int getContentLayout() {
         return R.layout.activity_welcome;
@@ -65,12 +72,12 @@ public class WelcomeActivity extends BaseActivity {
         }, 100);
 
         //必应每日壁纸 来源于 https://www.dujin.org/fenxiang/jiaocheng/3618.html.
-        ImageLoaderUtil.LoadImage(this, "http://api.dujin.org/bing/1920.php", ivAd);
+       // ImageLoaderUtil.LoadImage(this, "http://api.dujin.org/bing/1920.php", ivAd);
 
-        mCompositeDisposable.add(countDown(3).doOnSubscribe(new Consumer<Disposable>() {
+        mCompositeDisposable.add(countDown(5).doOnSubscribe(new Consumer<Disposable>() {
             @Override
             public void accept(@NonNull Disposable disposable) throws Exception {
-                tvSkip.setText("跳过 4");
+                tvSkip.setText("跳过 6");
             }
         }).subscribeWith(new DisposableObserver<Integer>() {
             @Override
@@ -88,6 +95,33 @@ public class WelcomeActivity extends BaseActivity {
                 toMain();
             }
         }));
+
+        mContainer = (ViewGroup) flAd;
+        SplashAd splashAd = new SplashAd(this, mContainer, R.drawable.welcom, new SplashAdListener() {
+            @Override
+            public void onAdPresent() {
+                // 开屏广告展示
+                Log.d(TAG, "onAdPresent");
+            }
+
+            @Override
+            public void onAdClick() {
+                //用户点击了开屏广告
+                Log.d(TAG, "onAdClick");
+            }
+
+            @Override
+            public void onAdDismissed() {
+                //这个方法被调用时，表示从开屏广告消失。
+                Log.d(TAG, "onAdDismissed");
+            }
+
+            @Override
+            public void onAdFailed(String s) {
+                Log.d(TAG, "onAdFailed, message: " + s);
+            }
+        });
+        splashAd.requestAd(Constants.START_POSITION_ID);
     }
 
 

@@ -75,4 +75,6 @@ public class Constants {
     //小米
     public static final String XIAOMI_ID = "2882303761517707497";
 
+    //欢迎页广告位
+    public static final String START_POSITION_ID = "53af243b95753f3b9c8cf348704028eb";
 }
