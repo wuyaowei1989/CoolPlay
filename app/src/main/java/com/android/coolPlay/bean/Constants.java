@@ -72,4 +72,7 @@ public class Constants {
     //国际
     public static final String GJ_ID = "GJPD";
 
+    //小米
+    public static final String XIAOMI_ID = "2882303761517707497";
+
 }

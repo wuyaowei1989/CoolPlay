@@ -4,7 +4,7 @@ ext {
     android = [
             compileSdkVersion      : 25,
             buildToolsVersion      : "25.0.2",
-            applicationId          : "com.will.weiyue",
+            applicationId          : "com.android.coolPlay",
             minSdkVersion          : 19,
             targetSdkVersion       : 25,
             versionCode            : 1,
@@ -12,7 +12,8 @@ ext {
     ]
 
     dependVersion = [
-            support: "25.3.1"
+            support: "25.3.1",
+            okhttp: "3.6.0"
     ]
 
     dependencies = [
@@ -74,5 +75,6 @@ ext {
             "litepal"               : "org.litepal.android:core:1.5.1",
             "retrolambda"           : "me.tatarka:gradle-retrolambda:3.7.0",
 
+            "okhttp-logging-interceptor": "com.squareup.okhttp3:logging-interceptor:${dependVersion.okhttp}",
     ]
 }

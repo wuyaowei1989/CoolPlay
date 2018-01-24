@@ -1,11 +1,13 @@
 package com.android.coolPlay;
 
 
+import com.android.coolPlay.bean.Constants;
 import com.android.coolPlay.component.ApplicationComponent;
 import com.android.coolPlay.component.DaggerApplicationComponent;
 import com.android.coolPlay.module.ApplicationModule;
 import com.android.coolPlay.module.HttpModule;
 import com.android.coolPlay.utils.ContextUtils;
+import com.xiaomi.ad.AdSdk;
 
 import org.litepal.LitePal;
 import org.litepal.LitePalApplication;
@@ -40,7 +42,8 @@ public class MyApp extends LitePalApplication {
         LitePal.initialize(this);
         width = ContextUtils.getSreenWidth(MyApp.getContext());
         height = ContextUtils.getSreenHeight(MyApp.getContext());
-
+        AdSdk.setDebugOn();
+        AdSdk.initialize(this, Constants.XIAOMI_ID);
     }
 
     public static MyApp getInstance() {

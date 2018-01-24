@@ -69,9 +69,11 @@ dependencies {
     compile rootProject.ext.dependencies["tablayout"]
     compile rootProject.ext.dependencies["androideventbus"]
     compile rootProject.ext.dependencies["gif-drawable"]
+    compile rootProject.ext.dependencies["okhttp-logging-interceptor"]
 
     compile rootProject.ext.dependencies["litepal"]
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile files('src/main/libs/AdSdk.jar')
     testCompile 'junit:junit:4.12'
 }
 repositories {
