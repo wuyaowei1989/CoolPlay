@@ -107,50 +107,54 @@ public class ArticleReadActivity extends BaseActivity<ArticleReadPresenter> impl
                 }
             }
         });
-        final ViewGroup container = (ViewGroup)mContainer;
+        final ViewGroup container = (ViewGroup) mContainer;
         final StandardNewsFeedAd standardNewsFeedAd = new StandardNewsFeedAd(this);
-        standardNewsFeedAd.requestAd(Constants.SY_S_POSITION_ID, 1, new NativeAdListener() {
-            @Override
-            public void onNativeInfoFail(AdError adError) {
-                Log.e(TAG, "onNativeInfoFail e : " + adError);
-            }
+        try {
+            standardNewsFeedAd.requestAd(Constants.SY_S_POSITION_ID, 1, new NativeAdListener() {
+                @Override
+                public void onNativeInfoFail(AdError adError) {
+                    Log.e(TAG, "onNativeInfoFail e : " + adError);
+                }
 
-            @Override
-            public void onNativeInfoSuccess(List<NativeAdInfoIndex> list) {
-                NativeAdInfoIndex response = list.get(0);
-                standardNewsFeedAd.buildViewAsync(response, container.getWidth(), new AdListener() {
-                    @Override
-                    public void onAdError(AdError adError) {
-                        Log.e(TAG, "error : remove all views");
-                        container.removeAllViews();
-                    }
-
-                    @Override
-                    public void onAdEvent(AdEvent adEvent) {
-                        //目前考虑了３种情况，用户点击信息流广告，用户点击x按钮，以及信息流展示的３种回调，范例如下
-                        if (adEvent.mType == AdEvent.TYPE_CLICK) {
-                            Log.d(TAG, "ad has been clicked!");
-                        } else if (adEvent.mType == AdEvent.TYPE_SKIP) {
-                            Log.d(TAG, "x button has been clicked!");
-                        } else if (adEvent.mType == AdEvent.TYPE_VIEW) {
-                            Log.d(TAG, "ad has been showed!");
+                @Override
+                public void onNativeInfoSuccess(List<NativeAdInfoIndex> list) {
+                    NativeAdInfoIndex response = list.get(0);
+                    standardNewsFeedAd.buildViewAsync(response, container.getWidth(), new AdListener() {
+                        @Override
+                        public void onAdError(AdError adError) {
+                            Log.e(TAG, "error : remove all views");
+                            container.removeAllViews();
                         }
-                    }
 
-                    @Override
-                    public void onAdLoaded() {
+                        @Override
+                        public void onAdEvent(AdEvent adEvent) {
+                            //目前考虑了３种情况，用户点击信息流广告，用户点击x按钮，以及信息流展示的３种回调，范例如下
+                            if (adEvent.mType == AdEvent.TYPE_CLICK) {
+                                Log.d(TAG, "ad has been clicked!");
+                            } else if (adEvent.mType == AdEvent.TYPE_SKIP) {
+                                Log.d(TAG, "x button has been clicked!");
+                            } else if (adEvent.mType == AdEvent.TYPE_VIEW) {
+                                Log.d(TAG, "ad has been showed!");
+                            }
+                        }
 
-                    }
+                        @Override
+                        public void onAdLoaded() {
 
-                    @Override
-                    public void onViewCreated(View view) {
-                        Log.e(TAG, "onViewCreated");
-                        container.removeAllViews();
-                        container.addView(view);
-                    }
-                });
-            }
-        });
+                        }
+
+                        @Override
+                        public void onViewCreated(View view) {
+                            Log.e(TAG, "onViewCreated");
+                            container.removeAllViews();
+                            container.addView(view);
+                        }
+                    });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
