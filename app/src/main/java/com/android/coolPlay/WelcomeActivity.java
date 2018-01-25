@@ -1,19 +1,18 @@
 package com.android.coolPlay;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.coolPlay.bean.Constants;
 import com.android.coolPlay.component.ApplicationComponent;
 import com.android.coolPlay.ui.base.BaseActivity;
-import com.android.coolPlay.utils.ImageLoaderUtil;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xiaomi.ad.SplashAdListener;
 import com.xiaomi.ad.adView.SplashAd;
 
@@ -25,22 +24,12 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
-import io.reactivex.observers.DisposableObserver;
-import pl.droidsonroids.gif.GifDrawable;
-import pl.droidsonroids.gif.GifImageView;
 
 
 public class WelcomeActivity extends BaseActivity {
 
-    @BindView(R.id.gifImageView)
-    GifImageView gifImageView;
-    @BindView(R.id.iv_ad)
-    ImageView ivAd;
-    @BindView(R.id.ll_bottom)
-    RelativeLayout llBottom;
     @BindView(R.id.tv_skip)
     TextView tvSkip;
     @BindView(R.id.fl_ad)
@@ -49,6 +38,7 @@ public class WelcomeActivity extends BaseActivity {
     private ViewGroup mContainer;
 
     private static final String TAG = "WelcomeActivity";
+
     @Override
     public int getContentLayout() {
         return R.layout.activity_welcome;
@@ -61,41 +51,22 @@ public class WelcomeActivity extends BaseActivity {
 
     @Override
     public void bindView(View view, Bundle savedInstanceState) {
-        //StatusBarUtil.setTranslucentForImageView(this, 0, flAd);
-        final GifDrawable gifDrawable = (GifDrawable) gifImageView.getDrawable();
-        gifDrawable.setLoopCount(1);
-        gifImageView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                gifDrawable.start();
-            }
-        }, 100);
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(Manifest.permission.READ_PHONE_STATE)
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            getAdInformation();
+                        } else {
+                            Log.d(TAG, "用户拒绝此权限！");
+                        }
+                    }
+                });
 
-        //必应每日壁纸 来源于 https://www.dujin.org/fenxiang/jiaocheng/3618.html.
-       // ImageLoaderUtil.LoadImage(this, "http://api.dujin.org/bing/1920.php", ivAd);
+    }
 
-        mCompositeDisposable.add(countDown(5).doOnSubscribe(new Consumer<Disposable>() {
-            @Override
-            public void accept(@NonNull Disposable disposable) throws Exception {
-                tvSkip.setText("跳过 6");
-            }
-        }).subscribeWith(new DisposableObserver<Integer>() {
-            @Override
-            public void onNext(Integer integer) {
-                tvSkip.setText("跳过 " + (integer + 1));
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-                toMain();
-            }
-        }));
-
+    public void getAdInformation() {
         mContainer = (ViewGroup) flAd;
         SplashAd splashAd = new SplashAd(this, mContainer, R.drawable.welcom, new SplashAdListener() {
             @Override
@@ -114,6 +85,7 @@ public class WelcomeActivity extends BaseActivity {
             public void onAdDismissed() {
                 //这个方法被调用时，表示从开屏广告消失。
                 Log.d(TAG, "onAdDismissed");
+                toMain();
             }
 
             @Override

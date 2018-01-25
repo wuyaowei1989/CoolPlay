@@ -14,10 +14,108 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            storeFile file('coolplay.jks')
+            storePassword "123456"
+            keyAlias "key0"
+            keyPassword "123456"
+        }
+        buildTypes {
+            debug {
+                minifyEnabled false
+//            zipAlignEnabled false
+//            shrinkResources false
+                //前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//                signingConfig signingConfigs.release
+            }
+            buildTypes {
+                release {
+                    minifyEnabled false
+                    // 移除无用的resource文件
+                    shrinkResources false
+                    proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                    //签名
+                    signingConfig signingConfigs.release
+                }
+            }
+        }
+
+        flavorDimensions "default"
+        productFlavors {
+            stu_baidu {
+                dimension "default"
+                manifestPlaceholders = [UMENG_CHANNEL_VALUE: "stu_baidu"]
+            }
+            stu_xiaomi {
+                dimension "default"
+                manifestPlaceholders = [UMENG_CHANNEL_VALUE: "stu_xiaomi"]
+            }
+            stu_vivo {
+                dimension "default"
+                manifestPlaceholders = [UMENG_CHANNEL_VALUE: "stu_vivo"]
+            }
+            stu_360 {
+                dimension "default"
+                manifestPlaceholders = [UMENG_CHANNEL_VALUE: "stu_360"]
+            }
+            stu_qq {
+                dimension "default"
+                manifestPlaceholders = [UMENG_CHANNEL_VALUE: "stu_qq"]
+            }
+            stu_huawei {
+                dimension "default"
+                manifestPlaceholders = [UMENG_CHANNEL_VALUE: "stu_huawei"]
+            }
+            stu_oppo {
+                dimension "default"
+                manifestPlaceholders = [UMENG_CHANNEL_VALUE: "stu_oppo"]
+            }
+            stu_flyme {
+                dimension "default"
+                manifestPlaceholders = [UMENG_CHANNEL_VALUE: "stu_flyme"]
+            }
+            stu_uc {
+                dimension "default"
+                manifestPlaceholders = [UMENG_CHANNEL_VALUE: "stu_uc"]
+            }
+            stu_lenovo {
+                dimension "default"
+                manifestPlaceholders = [UMENG_CHANNEL_VALUE: "stu_lenovo"]
+            }
+            stu_lephone {
+                dimension "default"
+                manifestPlaceholders = [UMENG_CHANNEL_VALUE: "stu_lephone"]
+            }
+            stu_sogou {
+                dimension "default"
+                manifestPlaceholders = [UMENG_CHANNEL_VALUE: "stu_sogou"]
+            }
+            stu_appchina {
+                dimension "default"
+                manifestPlaceholders = [UMENG_CHANNEL_VALUE: "stu_appchina"]
+            }
+        }
+
+        applicationVariants.all { variant ->
+            variant.outputs.all {
+                outputFileName = "${variant.name}_.apk"
+                if (outputFileName != null && outputFileName.endsWith('.apk')) {
+                    def date = new Date()
+                    def formattedDate = date.format('yyyy-MM-dd')
+                    def fileName = "apk_${variant.productFlavors[0].name}_coolplay_${formattedDate}_${defaultConfig.versionName}.apk"
+                    outputFileName = new File(outputFileName, fileName)
+                }
+            }
+        }
+
+        lintOptions {
+            disable 'InvalidPackage'
+            //只要添加下面这一句就可以了
+            disable 'MissingTranslation'
+            checkReleaseBuilds false
+            abortOnError false
         }
     }
 
@@ -26,54 +124,55 @@ android {
 //        targetCompatibility JavaVersion.VERSION_1_8
 //    }
 
-    buildToolsVersion '26.0.2'
-}
+        buildToolsVersion '26.0.2'
+    }
 
-dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile rootProject.ext.dependencies["appcompat-v7"]
-    compile rootProject.ext.dependencies["support-v4"]
-    compile rootProject.ext.dependencies["cardview"]
-    compile rootProject.ext.dependencies["design"]
-    compile rootProject.ext.dependencies["recyclerview"]
-    compile rootProject.ext.dependencies["retrofit2"]
-    compile rootProject.ext.dependencies["converter-scalars"]
-    compile rootProject.ext.dependencies["converter-gson"]
-    compile rootProject.ext.dependencies["adapter-rxjava2"]
-    compile rootProject.ext.dependencies.rxlifecycle2
-    compile rootProject.ext.dependencies.rxlifecomponents
-    compile rootProject.ext.dependencies["dagger"]
-    annotationProcessor rootProject.ext.dependencies["dagger-compiler"]
-    compile rootProject.ext.dependencies["rxjava"]
-    compile rootProject.ext.dependencies["rxandroid"]
-    compile rootProject.ext.dependencies["rxbinding2"]
-    compile rootProject.ext.dependencies["constraint-layout"]
-    compile rootProject.ext.dependencies["ultra-ptr"]
-    compile rootProject.ext.dependencies["fragmentation"]
-    compile rootProject.ext.dependencies["butterknife"]
-    annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
-    compile rootProject.ext.dependencies["BaseAdapterHelper"]
-    compile rootProject.ext.dependencies["glide"]
-    compile rootProject.ext.dependencies["banner"]
-    compile rootProject.ext.dependencies["viewanimator"]
-    compile rootProject.ext.dependencies["FlycoDialog"]
-    compile rootProject.ext.dependencies["PhotoView"]
-    compile rootProject.ext.dependencies["videoplayer"]
-    compile rootProject.ext.dependencies["lottie"]
-    compile rootProject.ext.dependencies["progressbar"]
-    compile rootProject.ext.dependencies["swipebacklayout"]
-    compile rootProject.ext.dependencies["tablayout"]
-    compile rootProject.ext.dependencies["androideventbus"]
-    compile rootProject.ext.dependencies["gif-drawable"]
-    compile rootProject.ext.dependencies["okhttp-logging-interceptor"]
-    compile rootProject.ext.dependencies["litepal"]
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile files('src/main/libs/AdSdk.jar')
-    testCompile 'junit:junit:4.12'
-}
-repositories {
-    mavenCentral()
-}
+    dependencies {
+        compile fileTree(include: ['*.jar'], dir: 'libs')
+        androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+            exclude group: 'com.android.support', module: 'support-annotations'
+        })
+        compile rootProject.ext.dependencies["appcompat-v7"]
+        compile rootProject.ext.dependencies["support-v4"]
+        compile rootProject.ext.dependencies["cardview"]
+        compile rootProject.ext.dependencies["design"]
+        compile rootProject.ext.dependencies["recyclerview"]
+        compile rootProject.ext.dependencies["retrofit2"]
+        compile rootProject.ext.dependencies["converter-scalars"]
+        compile rootProject.ext.dependencies["converter-gson"]
+        compile rootProject.ext.dependencies["adapter-rxjava2"]
+        compile rootProject.ext.dependencies.rxlifecycle2
+        compile rootProject.ext.dependencies.rxlifecomponents
+        compile rootProject.ext.dependencies["dagger"]
+        annotationProcessor rootProject.ext.dependencies["dagger-compiler"]
+        compile rootProject.ext.dependencies["rxjava"]
+        compile rootProject.ext.dependencies["rxandroid"]
+        compile rootProject.ext.dependencies["rxbinding2"]
+        compile rootProject.ext.dependencies["constraint-layout"]
+        compile rootProject.ext.dependencies["ultra-ptr"]
+        compile rootProject.ext.dependencies["fragmentation"]
+        compile rootProject.ext.dependencies["butterknife"]
+        annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
+        compile rootProject.ext.dependencies["BaseAdapterHelper"]
+        compile rootProject.ext.dependencies["glide"]
+        compile rootProject.ext.dependencies["banner"]
+        compile rootProject.ext.dependencies["viewanimator"]
+        compile rootProject.ext.dependencies["FlycoDialog"]
+        compile rootProject.ext.dependencies["PhotoView"]
+        compile rootProject.ext.dependencies["videoplayer"]
+        compile rootProject.ext.dependencies["lottie"]
+        compile rootProject.ext.dependencies["progressbar"]
+        compile rootProject.ext.dependencies["swipebacklayout"]
+        compile rootProject.ext.dependencies["tablayout"]
+        compile rootProject.ext.dependencies["androideventbus"]
+        compile rootProject.ext.dependencies["gif-drawable"]
+        compile rootProject.ext.dependencies["okhttp-logging-interceptor"]
+        compile rootProject.ext.dependencies["litepal"]
+        compile rootProject.ext.dependencies["rxpermissions"]
+        compile 'com.android.support.constraint:constraint-layout:1.0.2'
+        compile files('src/main/libs/AdSdk.jar')
+        testCompile 'junit:junit:4.12'
+    }
+    repositories {
+        mavenCentral()
+    }

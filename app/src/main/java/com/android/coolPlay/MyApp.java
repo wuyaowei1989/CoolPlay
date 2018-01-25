@@ -14,11 +14,6 @@ import org.litepal.LitePalApplication;
 
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackManager;
 
-/**
- * desc: .
- * author: Will .
- * date: 2017/9/2 .
- */
 public class MyApp extends LitePalApplication {
 
     private ApplicationComponent mApplicationComponent;
