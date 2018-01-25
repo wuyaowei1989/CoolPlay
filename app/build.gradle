@@ -15,12 +15,12 @@ android {
     }
 
     signingConfigs {
-        release {
-            storeFile file('coolplay.jks')
-            storePassword "123456"
-            keyAlias "key0"
-            keyPassword "123456"
-        }
+      //  release {
+       //     storeFile file('coolplay.jks')
+        //    storePassword "123456"
+        //    keyAlias "key0"
+        //    keyPassword "123456"
+    //    }
         buildTypes {
             debug {
                 minifyEnabled false
@@ -30,16 +30,14 @@ android {
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //                signingConfig signingConfigs.release
             }
-            buildTypes {
                 release {
                     minifyEnabled false
                     // 移除无用的resource文件
                     shrinkResources false
                     proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
                     //签名
-                    signingConfig signingConfigs.release
+//                    signingConfig signingConfigs.release
                 }
-            }
         }
 
         flavorDimensions "default"

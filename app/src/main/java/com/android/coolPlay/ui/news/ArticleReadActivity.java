@@ -6,14 +6,17 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.coolPlay.bean.Constants;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -27,6 +30,14 @@ import com.android.coolPlay.ui.news.contract.ArticleReadContract;
 import com.android.coolPlay.ui.news.presenter.ArticleReadPresenter;
 import com.android.coolPlay.utils.DateUtil;
 import com.android.coolPlay.widget.ObservableScrollView;
+import com.xiaomi.ad.AdListener;
+import com.xiaomi.ad.NativeAdInfoIndex;
+import com.xiaomi.ad.NativeAdListener;
+import com.xiaomi.ad.adView.StandardNewsFeedAd;
+import com.xiaomi.ad.common.pojo.AdError;
+import com.xiaomi.ad.common.pojo.AdEvent;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -64,6 +75,8 @@ public class ArticleReadActivity extends BaseActivity<ArticleReadPresenter> impl
     TextView mTvTopName;
     @BindView(R.id.tv_TopUpdateTime)
     TextView mTvTopUpdateTime;
+    @BindView(R.id.container)
+    FrameLayout mContainer;
 
     @Override
     public int getContentLayout() {
@@ -94,6 +107,51 @@ public class ArticleReadActivity extends BaseActivity<ArticleReadPresenter> impl
                 }
             }
         });
+        final ViewGroup container = (ViewGroup)mContainer;
+        final StandardNewsFeedAd standardNewsFeedAd = new StandardNewsFeedAd(this);
+        standardNewsFeedAd.requestAd(Constants.SY_S_POSITION_ID, 1, new NativeAdListener() {
+            @Override
+            public void onNativeInfoFail(AdError adError) {
+                Log.e(TAG, "onNativeInfoFail e : " + adError);
+            }
+
+            @Override
+            public void onNativeInfoSuccess(List<NativeAdInfoIndex> list) {
+                NativeAdInfoIndex response = list.get(0);
+                standardNewsFeedAd.buildViewAsync(response, container.getWidth(), new AdListener() {
+                    @Override
+                    public void onAdError(AdError adError) {
+                        Log.e(TAG, "error : remove all views");
+                        container.removeAllViews();
+                    }
+
+                    @Override
+                    public void onAdEvent(AdEvent adEvent) {
+                        //目前考虑了３种情况，用户点击信息流广告，用户点击x按钮，以及信息流展示的３种回调，范例如下
+                        if (adEvent.mType == AdEvent.TYPE_CLICK) {
+                            Log.d(TAG, "ad has been clicked!");
+                        } else if (adEvent.mType == AdEvent.TYPE_SKIP) {
+                            Log.d(TAG, "x button has been clicked!");
+                        } else if (adEvent.mType == AdEvent.TYPE_VIEW) {
+                            Log.d(TAG, "ad has been showed!");
+                        }
+                    }
+
+                    @Override
+                    public void onAdLoaded() {
+
+                    }
+
+                    @Override
+                    public void onViewCreated(View view) {
+                        Log.e(TAG, "onViewCreated");
+                        container.removeAllViews();
+                        container.addView(view);
+                    }
+                });
+            }
+        });
+
     }
 
     private void setWebViewSetting() {

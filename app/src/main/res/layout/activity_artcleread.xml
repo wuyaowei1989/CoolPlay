@@ -185,6 +185,12 @@
                     android:layout_marginRight="2dp"
                     android:background="@android:color/white"
                     />
+                <FrameLayout
+                    android:id="@+id/container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom">
+                </FrameLayout>
             </LinearLayout>
 
         </com.android.coolPlay.widget.SimpleMultiStateView>
