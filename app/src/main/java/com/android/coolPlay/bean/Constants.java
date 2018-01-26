@@ -77,12 +77,4 @@ public class Constants {
 
     //欢迎页广告位
     public static final String START_POSITION_ID = "53af243b95753f3b9c8cf348704028eb";
-
-    //首页广告流小图
-    public static final String SY_S_POSITION_ID = "5cb6de8793463c6f5c295f20f969f72f";
-
-    //新闻详情页广告小图
-    public static final String NEWS_DETAIL_S_PID = "164d01d700f89d91794265e70c4057c8";
-
-    public static final String JD_BANNER_PID = "5fade7be7ab7127204b485e59d03167f";
 }

@@ -4,11 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.android.coolPlay.bean.Constants;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.android.coolPlay.R;
 import com.android.coolPlay.bean.FreshNewsBean;
@@ -17,15 +14,11 @@ import com.android.coolPlay.component.ApplicationComponent;
 import com.android.coolPlay.component.DaggerHttpComponent;
 import com.android.coolPlay.ui.base.BaseFragment;
 import com.android.coolPlay.widget.CustomLoadMoreView;
-import com.xiaomi.ad.adView.BannerAd;
-import com.xiaomi.ad.common.pojo.AdEvent;
 
 import butterknife.BindView;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
-
-import static com.xiaomi.ad.common.GlobalHolder.getApplicationContext;
 
 /**
  * desc: .
@@ -35,7 +28,6 @@ import static com.xiaomi.ad.common.GlobalHolder.getApplicationContext;
 @SuppressLint("ValidFragment")
 public class JdDetailFragment extends BaseFragment<JanDanPresenter> implements JanDanContract.View {
     public static final String TYPE = "type";
-    private static final String TAG = "JdDetailFragment";
 
     @BindView(R.id.mRecyclerView)
     RecyclerView mRecyclerView;
@@ -45,8 +37,6 @@ public class JdDetailFragment extends BaseFragment<JanDanPresenter> implements J
     private BaseQuickAdapter mAdapter;
     private int pageNum = 1;
     private String type;
-    BannerAd mBannerAd;
-    private View view_Focus;//顶部banner
 
     public JdDetailFragment(BaseQuickAdapter adapter) {
         this.mAdapter = adapter;
@@ -102,23 +92,6 @@ public class JdDetailFragment extends BaseFragment<JanDanPresenter> implements J
                 mPresenter.getData(type, pageNum);
             }
         }, mRecyclerView);
-
-        view_Focus = getView().inflate(getActivity(), R.layout.ad_banner_headerview, null);
-        final ViewGroup container = (ViewGroup) view_Focus.findViewById(R.id.container);
-        mAdapter.addHeaderView(view_Focus);
-        mBannerAd = new BannerAd(getApplicationContext(), container, new BannerAd.BannerListener() {
-            @Override
-            public void onAdEvent(AdEvent adEvent) {
-                if (adEvent.mType == AdEvent.TYPE_CLICK) {
-                    Log.d(TAG, "ad has been clicked!");
-                } else if (adEvent.mType == AdEvent.TYPE_SKIP) {
-                    Log.d(TAG, "x button has been clicked!");
-                } else if (adEvent.mType == AdEvent.TYPE_VIEW) {
-                    Log.d(TAG, "ad has been showed!");
-                }
-            }
-        });
-        mBannerAd.show(Constants.JD_BANNER_PID);
 
     }
 

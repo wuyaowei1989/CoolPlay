@@ -9,13 +9,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.coolPlay.bean.Constants;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -38,12 +35,6 @@ import com.android.coolPlay.utils.ContextUtils;
 import com.android.coolPlay.utils.ImageLoaderUtil;
 import com.android.coolPlay.widget.CustomLoadMoreView;
 import com.android.coolPlay.widget.NewsDelPop;
-import com.xiaomi.ad.AdListener;
-import com.xiaomi.ad.NativeAdInfoIndex;
-import com.xiaomi.ad.NativeAdListener;
-import com.xiaomi.ad.adView.StandardNewsFeedAd;
-import com.xiaomi.ad.common.pojo.AdError;
-import com.xiaomi.ad.common.pojo.AdEvent;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -75,7 +66,6 @@ public class DetailFragment extends BaseFragment<DetailPresenter> implements Det
     RelativeLayout mRlTopToast;
 
     private View view_Focus;//顶部banner
-    private View view_fooder;
     private Banner mBanner;
     private NewsDelPop newsDelPop;
     private String newsid;
@@ -180,7 +170,6 @@ public class DetailFragment extends BaseFragment<DetailPresenter> implements Det
         });
 
         view_Focus = getView().inflate(getActivity(), R.layout.news_detail_headerview, null);
-        view_fooder = getView().inflate(getActivity(), R.layout.ad_banner_headerview, null);
         mBanner = (Banner) view_Focus.findViewById(R.id.banner);
         //设置banner样式
         mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR_TITLE)
@@ -216,52 +205,6 @@ public class DetailFragment extends BaseFragment<DetailPresenter> implements Det
                 newsDelPop.dismiss();
                 detailAdapter.remove(position);
                 showToast(0, false);
-            }
-        });
-
-        final ViewGroup container = (ViewGroup)view_fooder.findViewById(R.id.container);
-        detailAdapter.addFooterView(view_fooder);
-        final StandardNewsFeedAd standardNewsFeedAd = new StandardNewsFeedAd(getActivity());
-        standardNewsFeedAd.requestAd(Constants.SY_S_POSITION_ID, 1, new NativeAdListener() {
-            @Override
-            public void onNativeInfoFail(AdError adError) {
-                Log.e(TAG, "onNativeInfoFail e : " + adError);
-            }
-
-            @Override
-            public void onNativeInfoSuccess(List<NativeAdInfoIndex> list) {
-                NativeAdInfoIndex response = list.get(0);
-                standardNewsFeedAd.buildViewAsync(response, container.getWidth(), new AdListener() {
-                    @Override
-                    public void onAdError(AdError adError) {
-                        Log.e(TAG, "error : remove all views");
-                        container.removeAllViews();
-                    }
-
-                    @Override
-                    public void onAdEvent(AdEvent adEvent) {
-                        //目前考虑了３种情况，用户点击信息流广告，用户点击x按钮，以及信息流展示的３种回调，范例如下
-                        if (adEvent.mType == AdEvent.TYPE_CLICK) {
-                            Log.d(TAG, "ad has been clicked!");
-                        } else if (adEvent.mType == AdEvent.TYPE_SKIP) {
-                            Log.d(TAG, "x button has been clicked!");
-                        } else if (adEvent.mType == AdEvent.TYPE_VIEW) {
-                            Log.d(TAG, "ad has been showed!");
-                        }
-                    }
-
-                    @Override
-                    public void onAdLoaded() {
-
-                    }
-
-                    @Override
-                    public void onViewCreated(View view) {
-                        Log.e(TAG, "onViewCreated");
-                        container.removeAllViews();
-                        container.addView(view);
-                    }
-                });
             }
         });
     }
