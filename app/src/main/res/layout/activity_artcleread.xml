@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,8 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
-            android:src="@drawable/ic_read_back"
-            />
+            android:src="@drawable/ic_read_back" />
 
         <RelativeLayout
             android:id="@+id/rl_top"
@@ -28,71 +25,70 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
-            android:visibility="gone"
-            android:layout_toRightOf="@id/iv_back">
+            android:layout_toRightOf="@id/iv_back"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_topLogo"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_logo"
-                />
+                android:src="@drawable/ic_logo" />
 
             <TextView
                 android:id="@+id/tv_topname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/iv_topLogo"
-                android:layout_toEndOf="@+id/iv_topLogo"
                 android:layout_marginLeft="8dp"
+                android:layout_toEndOf="@+id/iv_topLogo"
                 android:text=""
                 android:textColor="@android:color/black"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
 
             <TextView
                 android:id="@+id/tv_TopUpdateTime"
                 android:layout_width="wrap_content"
-                android:layout_marginLeft="8dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/iv_topLogo"
+                android:layout_marginLeft="8dp"
                 android:layout_toEndOf="@+id/iv_topLogo"
-                android:textSize="@dimen/sp_12"
-                android:textColor="#989898"/>
+                android:textColor="#989898"
+                android:textSize="@dimen/sp_12" />
 
             <Button
                 android:layout_width="60dp"
                 android:layout_height="30dp"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="15dp"
-                android:text="关注"
-                android:layout_alignParentRight="true"
-                android:textColor="@android:color/white"
                 android:background="@drawable/read_bt_bg"
-                />
-
-
+                android:text="关注"
+                android:textColor="@android:color/white" />
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_alignParentBottom="true"
-            android:background="#e6e6e6"
-            />
+            android:background="#e6e6e6" />
     </RelativeLayout>
-
-    <com.android.coolPlay.widget.ObservableScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:visibility="visible"></FrameLayout>
+    <com.android.coolPlay.widget.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/ScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:descendantFocusability="blocksDescendants"
         android:fillViewport="true"
-        android:scrollbars="vertical"
-        >
+        android:scrollbars="vertical">
 
         <com.android.coolPlay.widget.SimpleMultiStateView
             android:id="@+id/SimpleMultiStateView"
@@ -102,14 +98,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/ConstraintLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                  >
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/tv_title"
@@ -120,13 +114,12 @@
                         android:layout_marginTop="8dp"
                         android:text=""
                         android:textColor="#333333"
-                        android:textSize="24sp"
-                      />
+                        android:textSize="24sp" />
 
                     <RelativeLayout
-                        android:layout_below="@id/tv_title"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_title">
 
 
                         <ImageView
@@ -135,44 +128,40 @@
                             android:layout_height="40dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="8dp"
-                            android:src="@drawable/ic_logo"
-                            />
+                            android:src="@drawable/ic_logo" />
 
                         <TextView
                             android:id="@+id/tv_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:text=""
                             android:layout_alignTop="@id/iv_logo"
+                            android:layout_marginLeft="8dp"
                             android:layout_toRightOf="@id/iv_logo"
+                            android:text=""
                             android:textColor="@android:color/black"
-                            android:textStyle="bold"
-                            />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_updateTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignBottom="@id/iv_logo"
                             android:layout_marginLeft="8dp"
                             android:layout_toRightOf="@id/iv_logo"
                             android:text=""
-                            android:textSize="@dimen/sp_12"
-                            android:layout_alignBottom="@id/iv_logo"
                             android:textColor="#989898"
-                            />
+                            android:textSize="@dimen/sp_12" />
 
                         <Button
                             android:id="@+id/bt_like"
                             android:layout_width="60dp"
                             android:layout_height="30dp"
-                            android:layout_marginEnd="15dp"
                             android:layout_alignParentRight="true"
-                            android:text="关注"
                             android:layout_centerVertical="true"
-                            android:textColor="@android:color/white"
+                            android:layout_marginEnd="15dp"
                             android:background="@drawable/read_bt_bg"
-                            />
+                            android:text="关注"
+                            android:textColor="@android:color/white" />
                     </RelativeLayout>
                 </RelativeLayout>
 
@@ -183,12 +172,7 @@
                     android:layout_marginBottom="45dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
-                    android:background="@android:color/white"
-                    />
-                <FrameLayout
-                    android:id="@+id/container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:background="@android:color/white" />
             </LinearLayout>
 
         </com.android.coolPlay.widget.SimpleMultiStateView>

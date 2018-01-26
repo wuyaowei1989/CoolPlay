@@ -10,21 +10,13 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.coolPlay.bean.Constants;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.flyco.animation.SlideEnter.SlideRightEnter;
-import com.flyco.animation.SlideExit.SlideRightExit;
-import com.github.florent37.viewanimator.AnimationListener;
-import com.github.florent37.viewanimator.ViewAnimator;
 import com.android.coolPlay.MyApp;
 import com.android.coolPlay.R;
+import com.android.coolPlay.bean.Constants;
 import com.android.coolPlay.bean.NewsDetail;
 import com.android.coolPlay.component.ApplicationComponent;
 import com.android.coolPlay.component.DaggerHttpComponent;
@@ -38,6 +30,13 @@ import com.android.coolPlay.utils.ContextUtils;
 import com.android.coolPlay.utils.ImageLoaderUtil;
 import com.android.coolPlay.widget.CustomLoadMoreView;
 import com.android.coolPlay.widget.NewsDelPop;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.flyco.animation.SlideEnter.SlideRightEnter;
+import com.flyco.animation.SlideExit.SlideRightExit;
+import com.github.florent37.viewanimator.AnimationListener;
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.xiaomi.ad.AdListener;
 import com.xiaomi.ad.NativeAdInfoIndex;
 import com.xiaomi.ad.NativeAdListener;
@@ -218,9 +217,50 @@ public class DetailFragment extends BaseFragment<DetailPresenter> implements Det
                 showToast(0, false);
             }
         });
+    }
 
+    @Override
+    public void initData() {
+        if (getArguments() == null) return;
+        newsid = getArguments().getString("newsid");
+        position = getArguments().getInt("position");
+        mPresenter.getData(newsid, NewsApi.ACTION_DEFAULT, 1);
+    }
+
+    @Override
+    public void onRetry() {
+        initData();
+    }
+
+    @Override
+    public void loadBannerData(NewsDetail newsDetail) {
+        Log.i(TAG, "loadBannerData: " + newsDetail.toString());
+        List<String> mTitleList = new ArrayList<>();
+        List<String> mUrlList = new ArrayList<>();
+        mBannerList.clear();
+        for (NewsDetail.ItemBean bean : newsDetail.getItem()) {
+            if (!TextUtils.isEmpty(bean.getThumbnail())) {
+                mTitleList.add(bean.getTitle());
+                mBannerList.add(bean);
+                mUrlList.add(bean.getThumbnail());
+            }
+        }
+        if (mUrlList.size() > 0) {
+            mBanner.setImages(mUrlList);
+            mBanner.setBannerTitles(mTitleList);
+            mBanner.start();
+            if (detailAdapter.getHeaderLayoutCount() < 1) {
+                detailAdapter.addHeaderView(view_Focus, 0);
+                addHeaderAd(1);
+            } else {
+                addHeaderAd(0);
+            }
+        }
+    }
+
+    public void addHeaderAd(int index) {
         final ViewGroup container = (ViewGroup) view_fooder.findViewById(R.id.container);
-        detailAdapter.addFooterView(view_fooder, 0);
+        detailAdapter.addHeaderView(view_fooder,1);
         final StandardNewsFeedAd standardNewsFeedAd = new StandardNewsFeedAd(getActivity());
         try {
             standardNewsFeedAd.requestAd(Constants.SY_S_POSITION_ID, 1, new NativeAdListener() {
@@ -267,42 +307,6 @@ public class DetailFragment extends BaseFragment<DetailPresenter> implements Det
             });
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void initData() {
-        if (getArguments() == null) return;
-        newsid = getArguments().getString("newsid");
-        position = getArguments().getInt("position");
-        mPresenter.getData(newsid, NewsApi.ACTION_DEFAULT, 1);
-    }
-
-    @Override
-    public void onRetry() {
-        initData();
-    }
-
-    @Override
-    public void loadBannerData(NewsDetail newsDetail) {
-        Log.i(TAG, "loadBannerData: " + newsDetail.toString());
-        List<String> mTitleList = new ArrayList<>();
-        List<String> mUrlList = new ArrayList<>();
-        mBannerList.clear();
-        for (NewsDetail.ItemBean bean : newsDetail.getItem()) {
-            if (!TextUtils.isEmpty(bean.getThumbnail())) {
-                mTitleList.add(bean.getTitle());
-                mBannerList.add(bean);
-                mUrlList.add(bean.getThumbnail());
-            }
-        }
-        if (mUrlList.size() > 0) {
-            mBanner.setImages(mUrlList);
-            mBanner.setBannerTitles(mTitleList);
-            mBanner.start();
-            if (detailAdapter.getHeaderLayoutCount() < 1) {
-                detailAdapter.addHeaderView(view_Focus);
-            }
         }
     }
 
