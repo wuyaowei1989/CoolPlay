@@ -87,7 +87,6 @@
             android:name="com.android.coolPlay.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoBar"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
