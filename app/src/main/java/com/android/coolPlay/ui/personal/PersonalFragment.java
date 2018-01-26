@@ -18,6 +18,11 @@ import com.android.coolPlay.utils.ImageLoaderUtil;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * desc: 个人页面
+ * author: Will .
+ * date: 2017/9/2 .
+ */
 public class PersonalFragment extends BaseFragment {
 
     //    @BindView(R.id.diagonalLayout)
