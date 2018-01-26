@@ -60,7 +60,6 @@ public class WelcomeActivity extends BaseActivity {
                             getAdInformation();
                         } else {
                             Log.d(TAG, "用户拒绝此权限！");
-                            toMain();
                         }
                     }
                 });
@@ -91,7 +90,6 @@ public class WelcomeActivity extends BaseActivity {
 
             @Override
             public void onAdFailed(String s) {
-                toMain();
                 Log.d(TAG, "onAdFailed, message: " + s);
             }
         });

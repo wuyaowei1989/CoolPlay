@@ -101,17 +101,16 @@ public class ArticleReadActivity extends BaseActivity<ArticleReadPresenter> impl
             public void onScrollChanged(ObservableScrollView scrollView, int x, int scrollY, int oldx, int oldy) {
                 if (scrollY > mConstraintLayout.getHeight()) {
                     mRlTop.setVisibility(View.VISIBLE);
-                    mContainer.setVisibility(View.VISIBLE);
                 } else {
                     mRlTop.setVisibility(View.GONE);
-                    mContainer.setVisibility(View.GONE);
+
                 }
             }
         });
         final ViewGroup container = (ViewGroup) mContainer;
         final StandardNewsFeedAd standardNewsFeedAd = new StandardNewsFeedAd(this);
         try {
-            standardNewsFeedAd.requestAd(Constants.NEWS_DETAIL_S_PID, 1, new NativeAdListener() {
+            standardNewsFeedAd.requestAd(Constants.SY_S_POSITION_ID, 1, new NativeAdListener() {
                 @Override
                 public void onNativeInfoFail(AdError adError) {
                     Log.e(TAG, "onNativeInfoFail e : " + adError);

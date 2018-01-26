@@ -42,7 +42,6 @@
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:hardwareAccelerated="false"
         android:theme="@style/AppTheme">
         <activity
             android:name="com.android.coolPlay.MainActivity"
@@ -54,7 +53,7 @@
         <activity
             android:name="com.android.coolPlay.ui.news.ArticleReadActivity"
             android:screenOrientation="portrait"
-            android:hardwareAccelerated="false"
+            android:hardwareAccelerated="true"
             android:theme="@style/AppTheme.Transparent"
             android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
@@ -74,7 +73,7 @@
             android:name="com.android.coolPlay.ui.jandan.ReadActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent"
-            android:hardwareAccelerated="false"
+            android:hardwareAccelerated="true"
 
             android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
