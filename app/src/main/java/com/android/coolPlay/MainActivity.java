@@ -10,6 +10,7 @@ import com.android.coolPlay.ui.base.SupportFragment;
 import com.android.coolPlay.ui.jandan.JanDanFragment;
 import com.android.coolPlay.ui.personal.PersonalFragment;
 import com.android.coolPlay.ui.news.NewsFragment;
+import com.android.coolPlay.ui.sinavideo.SinaVideoFragment;
 import com.android.coolPlay.ui.video.VideoFragment;
 import com.android.coolPlay.utils.StatusBarUtil;
 import com.android.coolPlay.widget.BottomBar;
@@ -26,7 +27,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.bottomBar)
     BottomBar mBottomBar;
 
-    private SupportFragment[] mFragments = new SupportFragment[4];
+    private SupportFragment[] mFragments = new SupportFragment[5];
 
 
     @Override
@@ -53,23 +54,27 @@ public class MainActivity extends BaseActivity {
             mFragments[1] = VideoFragment.newInstance();
             mFragments[2] = JanDanFragment.newInstance();
             mFragments[3] = PersonalFragment.newInstance();
+            mFragments[4] = SinaVideoFragment.newInstance();
 
             getSupportDelegate().loadMultipleRootFragment(R.id.contentContainer, 0,
                     mFragments[0],
                     mFragments[1],
                     mFragments[2],
-                    mFragments[3]);
+                    mFragments[3],
+                    mFragments[4]);
         } else {
             mFragments[0] = findFragment(NewsFragment.class);
             mFragments[1] = findFragment(VideoFragment.class);
             mFragments[2] = findFragment(JanDanFragment.class);
             mFragments[3] = findFragment(PersonalFragment.class);
+            mFragments[4] = findFragment(SinaVideoFragment.class);
         }
 
         mBottomBar.addItem(new BottomBarTab(this, R.drawable.ic_news, "新闻"))
                 .addItem(new BottomBarTab(this, R.drawable.ic_video, "视频"))
                 .addItem(new BottomBarTab(this, R.drawable.ic_jiandan, "煎蛋"))
-                .addItem(new BottomBarTab(this, R.drawable.ic_my, "我的"));
+                .addItem(new BottomBarTab(this, R.drawable.ic_my, "我的"))
+                .addItem(new BottomBarTab(this, R.drawable.ic_video, "娱乐"));
         mBottomBar.setOnTabSelectedListener(new BottomBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position, int prePosition) {

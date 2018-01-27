@@ -8,12 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.android.coolPlay.R;
 import com.android.coolPlay.component.ApplicationComponent;
 import com.android.coolPlay.ui.base.BaseFragment;
-import com.android.coolPlay.utils.ImageLoaderUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -66,8 +63,6 @@ public class PersonalFragment extends BaseFragment {
 
     @Override
     public void bindView(View view, Bundle savedInstanceState) {
-        ImageLoaderUtil.LoadImage(this, "http://oon8y1sqh.bkt.clouddn.com/avatar.JPG", mIvAuthor,
-                new RequestOptions().circleCrop().diskCacheStrategy(DiskCacheStrategy.ALL));
         Typeface mtypeface = Typeface.createFromAsset(getActivity().getAssets(), "font/consolab.ttf");
         mTvContacts.setTypeface(mtypeface);
         Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "font/consola.ttf");

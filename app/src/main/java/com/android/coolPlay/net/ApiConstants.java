@@ -17,8 +17,7 @@ public class ApiConstants {
 
     public static final String sGetNewsArticleDocCmppApi = "ipadtestdoc";
 
+    public static final String sSinaApi = "http://video.sina.cn/";
    //public static final String IFengApi = "http://api.irecommend.ifeng.com/";
-
-
 
 }

@@ -8,6 +8,8 @@ import com.android.coolPlay.net.JanDanApiService;
 import com.android.coolPlay.net.NewsApi;
 import com.android.coolPlay.net.NewsApiService;
 import com.android.coolPlay.net.RetrofitConfig;
+import com.android.coolPlay.net.SinaApi;
+import com.android.coolPlay.net.SinaApiService;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -87,6 +89,18 @@ public class HttpModule {
         return JanDanApi.getInstance(retrofitBuilder
                 .baseUrl(ApiConstants.sJanDanApi)
                 .build().create(JanDanApiService.class));
+    }
+
+    @Provides
+    SinaApi provideSinaApis(OkHttpClient.Builder builder) {
+        Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(builder.build());
+
+        return SinaApi.getInstance(retrofitBuilder
+                .baseUrl(ApiConstants.sSinaApi)
+                .build().create(SinaApiService.class));
     }
 
 }

@@ -4,6 +4,7 @@ import com.android.coolPlay.ui.jandan.JdDetailFragment;
 import com.android.coolPlay.ui.news.ArticleReadActivity;
 import com.android.coolPlay.ui.news.ImageBrowseActivity;
 import com.android.coolPlay.ui.news.NewsFragment;
+import com.android.coolPlay.ui.sinavideo.SinaVideoFragment;
 import com.android.coolPlay.ui.video.DetailFragment;
 import com.android.coolPlay.ui.video.VideoFragment;
 
@@ -31,4 +32,5 @@ public interface HttpComponent {
 
     void inject(NewsFragment newsFragment);
 
+    void inject(SinaVideoFragment sinaVideoFragment);
 }

@@ -15,24 +15,6 @@
         android:layout_above="@+id/ll_bottom"
         />
 
-    <RelativeLayout
-        android:id="@id/ll_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:padding="10dp"
-        android:background="@android:color/white">
-
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/gifImageView"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/newlogo"
-            />
-
-    </RelativeLayout>
-
     <FrameLayout
         android:id="@+id/fl_ad"
         android:layout_width="wrap_content"

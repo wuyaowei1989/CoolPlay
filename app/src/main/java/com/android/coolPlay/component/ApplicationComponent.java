@@ -7,6 +7,7 @@ import com.android.coolPlay.module.ApplicationModule;
 import com.android.coolPlay.module.HttpModule;
 import com.android.coolPlay.net.JanDanApi;
 import com.android.coolPlay.net.NewsApi;
+import com.android.coolPlay.net.SinaApi;
 
 import dagger.Component;
 
@@ -23,6 +24,8 @@ public interface ApplicationComponent {
     NewsApi getNetEaseApi();
 
     JanDanApi getJanDanApi();
+
+    SinaApi getSinaApi();
 
     Context getContext();
 
