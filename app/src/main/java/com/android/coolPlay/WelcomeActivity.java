@@ -1,6 +1,5 @@
 package com.android.coolPlay;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,10 +11,11 @@ import android.widget.TextView;
 import com.android.coolPlay.bean.Constants;
 import com.android.coolPlay.component.ApplicationComponent;
 import com.android.coolPlay.ui.base.BaseActivity;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xiaomi.ad.SplashAdListener;
 import com.xiaomi.ad.adView.SplashAd;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -24,7 +24,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
 
@@ -51,19 +50,29 @@ public class WelcomeActivity extends BaseActivity {
 
     @Override
     public void bindView(View view, Bundle savedInstanceState) {
-        RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(Manifest.permission.READ_PHONE_STATE)
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
-                            getAdInformation();
-                        } else {
-                            Log.d(TAG, "用户拒绝此权限！");
-                            toMain();
-                        }
-                    }
-                });
+//        RxPermissions rxPermissions = new RxPermissions(this);
+//        rxPermissions.request(Manifest.permission.READ_PHONE_STATE)
+//                .subscribe(new Consumer<Boolean>() {
+//                    @Override
+//                    public void accept(Boolean aBoolean) throws Exception {
+//                        if (aBoolean) {
+//                            getAdInformation();
+//                        } else {
+//                            Log.d(TAG, "用户拒绝此权限！");
+//                            toMain();
+//                        }
+//                    }
+//                });
+        flAd.setBackgroundResource(R.drawable.welcom);
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                toMain();
+
+            }
+        };
+        timer.schedule(timerTask, 3000);
 
     }
 
