@@ -21,7 +21,7 @@ public class JanDanApi {
     public static final String TYPE_FRESH = "get_recent_posts";
     public static final String TYPE_FRESHARTICLE = "get_post";
     public static final String TYPE_BORED = "jandan.get_pic_comments";
-    public static final String TYPE_GIRLS = "jandan.get_ooxx_comments";
+    public static final String TYPE_GIRLS = "jandan.get_drawings_comments";
     public static final String TYPE_Duan = "jandan.get_duan_comments";
 
     @StringDef({TYPE_FRESH, TYPE_BORED, TYPE_GIRLS, TYPE_Duan})
@@ -57,7 +57,7 @@ public class JanDanApi {
     }
 
     /**
-     * 获取 无聊图，妹子图，段子列表
+     * 获取 无聊图，段子列表
      *
      * @param type {@link Type}
      * @param page 页码
@@ -77,4 +77,10 @@ public class JanDanApi {
         return mService.getFreshNewsArticle(ApiConstants.sJanDanApi, TYPE_FRESHARTICLE, "content,date,modified", id);
     }
 
+    /**
+     * 获取流行图
+     */
+    public Observable<JdDetailBean> getJdPopularList() {
+        return mService.getPopularList(ApiConstants.sJanDanMoyu);
+    }
 }

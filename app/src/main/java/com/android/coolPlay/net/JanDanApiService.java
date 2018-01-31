@@ -36,4 +36,7 @@ public interface JanDanApiService {
                                                          @Query("id") int id
     );
 
+    @GET
+    Observable<JdDetailBean> getPopularList(@Url String url);
+
 }

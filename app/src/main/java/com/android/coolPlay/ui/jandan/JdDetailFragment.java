@@ -181,4 +181,17 @@ public class JdDetailFragment extends BaseFragment<JanDanPresenter> implements J
             mAdapter.loadMoreComplete();
         }
     }
+
+    @Override
+    public void loadPopularData(JdDetailBean jdDetailBean) {
+        if (jdDetailBean == null) {
+            mPtrFrameLayout.refreshComplete();
+            showFaild();
+        } else {
+            pageNum++;
+            mAdapter.setNewData(jdDetailBean.getComments());
+            mPtrFrameLayout.refreshComplete();
+            showSuccess();
+        }
+    }
 }

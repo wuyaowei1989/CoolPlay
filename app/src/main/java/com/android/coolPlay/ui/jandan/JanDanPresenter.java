@@ -32,6 +32,8 @@ public class JanDanPresenter extends BasePresenter<JanDanContract.View> implemen
     public void getData(String type, int page) {
         if (type.equals(JanDanApi.TYPE_FRESH)) {
             getFreshNews(page);
+        } else if (type.equals(JanDanApi.TYPE_GIRLS)) {
+            getPopularData(page);
         } else {
             getDetailData(type, page);
         }
@@ -100,5 +102,43 @@ public class JanDanPresenter extends BasePresenter<JanDanContract.View> implemen
                         Log.i(TAG, "onFail: " + e.getMessage());
                     }
                 });
+    }
+
+    @Override
+    public void getPopularData(int page) {
+        if (page > 1) {
+            mView.loadPopularData(null);
+        } else {
+            mJanDanApi.getJdPopularList()
+                    .compose(RxSchedulers.<JdDetailBean>applySchedulers())
+                    .compose(mView.<JdDetailBean>bindToLife())
+                    .map(new Function<JdDetailBean, JdDetailBean>() {
+                        @Override
+                        public JdDetailBean apply(@NonNull JdDetailBean jdDetailBean) throws Exception {
+                            for (JdDetailBean.CommentsBean bean : jdDetailBean.getComments()) {
+                                if (bean.getPics() != null) {
+                                    if (bean.getPics().size() > 1) {
+                                        bean.itemType = JdDetailBean.CommentsBean.TYPE_MULTIPLE;
+                                    } else {
+                                        bean.itemType = JdDetailBean.CommentsBean.TYPE_SINGLE;
+                                    }
+                                }
+                            }
+                            return jdDetailBean;
+                        }
+                    })
+                    .subscribe(new BaseObserver<JdDetailBean>() {
+                        @Override
+                        public void onSuccess(JdDetailBean jdDetailBean) {
+                            mView.loadPopularData(jdDetailBean);
+                        }
+
+                        @Override
+                        public void onFail(Throwable e) {
+                            mView.loadPopularData(null);
+                            Log.i(TAG, "onFail: " + e.getMessage());
+                        }
+                    });
+        }
     }
 }

@@ -59,7 +59,7 @@ public class JanDanFragment extends BaseFragment {
         List<String> strings = new ArrayList<>();
         strings.add("新鲜事");
         strings.add("无聊图");
-        strings.add("妹子图");
+        strings.add("流行");
         strings.add("段子");
         mJanDanPagerAdapter = new JanDanPagerAdapter(getChildFragmentManager(), strings);
         mViewpager.setAdapter(mJanDanPagerAdapter);

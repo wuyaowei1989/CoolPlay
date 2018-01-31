@@ -21,6 +21,7 @@ public interface JanDanContract {
 
         void loadMoreDetailData(String type, JdDetailBean jdDetailBean);
 
+        void loadPopularData(JdDetailBean jdDetailBean);
     }
 
     interface Presenter extends BaseContract.BasePresenter<View> {
@@ -31,5 +32,6 @@ public interface JanDanContract {
 
         void getDetailData(String type, int page);
 
+        void getPopularData(int page);
     }
 }
