@@ -1,7 +1,5 @@
 package com.android.coolPlay.ui.news.presenter;
 
-import android.util.Log;
-
 import com.android.coolPlay.bean.NewsDetail;
 import com.android.coolPlay.net.BaseObserver;
 import com.android.coolPlay.net.NewsApi;
@@ -117,7 +115,6 @@ public class DetailPresenter extends BasePresenter<DetailContract.View> implemen
 
                     @Override
                     public void onFail(Throwable e) {
-                        Log.i(TAG, "onFail: " + e.getMessage().toString());
                         if (!action.equals(NewsApi.ACTION_UP)) {
                             mView.loadData(null);
                         } else {
