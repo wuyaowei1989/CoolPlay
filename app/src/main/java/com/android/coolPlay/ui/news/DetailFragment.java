@@ -85,6 +85,7 @@ public class DetailFragment extends BaseFragment<DetailPresenter> implements Det
     private int upPullNum = 1;
     private int downPullNum = 1;
     private boolean isRemoveHeaderView = false;
+    private ViewGroup container;
 
     public static DetailFragment newInstance(String newsid, int position) {
         Bundle args = new Bundle();
@@ -120,8 +121,9 @@ public class DetailFragment extends BaseFragment<DetailPresenter> implements Det
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 Log.i(TAG, "onRefreshBegin: " + downPullNum);
-                isRemoveHeaderView = true;
+                isRemoveHeaderView = false;
                 mPresenter.getData(newsid, NewsApi.ACTION_DOWN, downPullNum);
+                requestAD();
             }
         });
         beanList = new ArrayList<>();
@@ -259,8 +261,12 @@ public class DetailFragment extends BaseFragment<DetailPresenter> implements Det
     }
 
     public void addHeaderAd(int index) {
-        final ViewGroup container = (ViewGroup) view_fooder.findViewById(R.id.container);
+        container = (ViewGroup) view_fooder.findViewById(R.id.container);
         detailAdapter.addHeaderView(view_fooder,1);
+        requestAD();
+    }
+
+    public void requestAD() {
         final StandardNewsFeedAd standardNewsFeedAd = new StandardNewsFeedAd(getActivity());
         try {
             standardNewsFeedAd.requestAd(Constants.SY_S_POSITION_ID, 1, new NativeAdListener() {

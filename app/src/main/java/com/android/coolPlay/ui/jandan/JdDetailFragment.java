@@ -8,15 +8,15 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.coolPlay.bean.Constants;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.android.coolPlay.R;
+import com.android.coolPlay.bean.Constants;
 import com.android.coolPlay.bean.FreshNewsBean;
 import com.android.coolPlay.bean.JdDetailBean;
 import com.android.coolPlay.component.ApplicationComponent;
 import com.android.coolPlay.component.DaggerHttpComponent;
 import com.android.coolPlay.ui.base.BaseFragment;
 import com.android.coolPlay.widget.CustomLoadMoreView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xiaomi.ad.adView.BannerAd;
 import com.xiaomi.ad.common.pojo.AdEvent;
 
@@ -47,6 +47,7 @@ public class JdDetailFragment extends BaseFragment<JanDanPresenter> implements J
     private String type;
     BannerAd mBannerAd;
     private View view_Focus;//顶部banner
+    private ViewGroup container;
 
     public JdDetailFragment(BaseQuickAdapter adapter) {
         this.mAdapter = adapter;
@@ -86,6 +87,7 @@ public class JdDetailFragment extends BaseFragment<JanDanPresenter> implements J
             public void onRefreshBegin(PtrFrameLayout frame) {
                 pageNum = 1;
                 mPresenter.getData(type, pageNum);
+                requestAD();
 
             }
         });
@@ -104,8 +106,12 @@ public class JdDetailFragment extends BaseFragment<JanDanPresenter> implements J
         }, mRecyclerView);
 
         view_Focus = getView().inflate(getActivity(), R.layout.ad_banner_headerview, null);
-        final ViewGroup container = (ViewGroup) view_Focus.findViewById(R.id.container);
+        container = (ViewGroup) view_Focus.findViewById(R.id.container);
         mAdapter.addHeaderView(view_Focus);
+        requestAD();
+    }
+
+    private void requestAD() {
         mBannerAd = new BannerAd(getApplicationContext(), container, new BannerAd.BannerListener() {
             @Override
             public void onAdEvent(AdEvent adEvent) {
@@ -119,7 +125,6 @@ public class JdDetailFragment extends BaseFragment<JanDanPresenter> implements J
             }
         });
         mBannerAd.show(Constants.JD_BANNER_PID);
-
     }
 
     @Override

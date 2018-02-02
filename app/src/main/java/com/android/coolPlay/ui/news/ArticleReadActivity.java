@@ -100,7 +100,6 @@ public class ArticleReadActivity extends BaseActivity<ArticleReadPresenter> impl
             @Override
             public void onScrollChanged(ObservableScrollView scrollView, int x, int scrollY, int oldx, int oldy) {
                 if (scrollY > mConstraintLayout.getHeight()) {
-                    mRlTop.setVisibility(View.VISIBLE);
                     mContainer.setVisibility(View.VISIBLE);
                 } else {
                     mRlTop.setVisibility(View.GONE);

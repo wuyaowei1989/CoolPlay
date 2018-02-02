@@ -85,4 +85,7 @@ public class Constants {
     public static final String NEWS_DETAIL_S_PID = "164d01d700f89d91794265e70c4057c8";
 
     public static final String JD_BANNER_PID = "5fade7be7ab7127204b485e59d03167f";
+
+    //煎蛋详情页面
+    public static final String JD_DETAIL_PID = "fad869aee4f85b9522550eb7001004a0";
 }
